@@ -5,7 +5,7 @@ CONGRAT_TEMPLATE = ('Награждается {{ surname }} {{ name }},обуч�
                     'за достижения.')
 
 if __name__ == '__main__':
-    wb = openpyxl.load_workbook("db.xlsx")
+    wb = openpyxl.load_workbook('docs/db.xlsx')
     ws = wb.active
     vals = list(ws.values)
 
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     for i, row in enumerate(vals[1:]):
         for j, val in enumerate(row):
             records[i][vals[0][j]] = val
-    doc = docxtpl.DocxTemplate('word_template.docx')
+    doc = docxtpl.DocxTemplate('docs/word_template.docx')
     ctx = {'records': records}
     doc.render(ctx)
-    doc.save('generated.docx')
+    doc.save('docs/generated.docx')
