@@ -1,0 +1,6 @@
+hoverbord 100 true
+water 50 false
+melon 12 true
+beer 1 false
+sausage 150 false
+autolift 1499 true
