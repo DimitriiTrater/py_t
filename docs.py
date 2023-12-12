@@ -1,53 +1,21 @@
 import openpyxl
-import docx
 import docxtpl
-from openpyxl import load_workbook
-from docxtpl import DocxTemplate
 
-wb = load_workbook("people.xlsx")
-ws = wb.active
+CONGRAT_TEMPLATE = ('Награждается {{ surname }} {{ name }},обучающийся(яся) {{ school }} '
+                    'за достижения.')
 
-doc = docx.Document()
+if __name__ == '__main__':
+    wb = openpyxl.load_workbook("db.xlsx")
+    ws = wb.active
+    vals = list(ws.values)
 
-for i in range(3):
-    paragraph =\
-        f'{{{{ context{i} }}}}'
-    doc.add_page_break()
+    rec_tpl = {head: None for head in vals[0]}
+    records = [rec_tpl.copy() for row in vals[1:]]
 
-doc.save('templ.docx')
-
-doc = DocxTemplate("templ.docx")
-dict_of_contexts = {}
-i = 0
-for x in ws.values:
-    context = {
-        "surname": x[0],
-        "name": x[1],
-        "pat": x[2],
-        "school": x[3],
-    }
-    dict_of_contexts[f'context{i}'] = context
-
-doc.render(dict_of_contexts)
-doc.save("generated_doc.docx")
-
-# for x in list_of_contexts:
-#     doc.render(context)
-#     doc.add_page_break()
-#
-# doc.save("generated_doc.docx")
-# ##############################3
-#
-#
-#
-# for x in ws.values:
-#     print(x)
-#     doc = docxtpl.DocxTemplate('Дипломанты.docx')
-#     context = {
-#     'surname': x[0],
-#     'name': x[1],
-#     'patronymic': x[2],
-#     'school': x[3],
-# }
-#     doc.render(context)
-#     doc.save("Дипломанты.docx")
+    for i, row in enumerate(vals[1:]):
+        for j, val in enumerate(row):
+            records[i][vals[0][j]] = val
+    doc = docxtpl.DocxTemplate('word_template.docx')
+    ctx = {'records': records}
+    doc.render(ctx)
+    doc.save('generated.docx')
