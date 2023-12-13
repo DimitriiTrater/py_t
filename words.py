@@ -9,7 +9,6 @@ adj = morph.parse(input('Введите прилагательное: ')
                   )[0].inflect({noun.tag.gender, noun.tag.case})
 verb = morph.parse(input('Введите глагол: '))[0]
 number = [morph.parse(i)[-1].inflect({'ablt'}).word for i in number]
-print(number)
 
 
 def unpack(s):
@@ -20,9 +19,6 @@ ext = NumberExtractor()
 money = morph.parse("рубль")[0].make_agree_with_number(
     int(ext.replace(number[-1]))).word
 
-print(adj.tag)
-print(noun.tag)
-
 print(f'Плохого человека {name.word.capitalize()} не назовут. \
-Обладая {unpack(number)} рублями, он{"a" if "femn" in name.tag else ""}\
+Обладая {unpack(number)} рублями, он {"a" if "femn" in name.tag else ""}\
 может {verb.word} {adj.word} {noun.word}')
