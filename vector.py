@@ -96,16 +96,11 @@ class Vector:
 
     def __or__(self, other) -> bool:
         '''return true if vectors collinear'''
-        return self.x/other.x == self.y/other.y == self.z/other.z
+        cross = self ^ other
+        return not (cross.x | cross.y | cross.z)
 
 
 if __name__ == "__main__":
     r = Vector(2, 2, 2)
-    t = Vector(3, 4, 5)
-    m = Vector(8, 9, 1)
-    print(6+r)
-    print(r+6)
-    print(2-r)
-    print(r-2)
-    print(Vector.triple_product(r, t, m))
-    print(-r)
+    t = Vector(2, 2, 2)
+    print(r | t)
